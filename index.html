@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For You</title>
+    <!-- Import Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            /* Pink background */
+            background-color: #ffccd5;
+            background-image: 
+                linear-gradient(#ffb3c1 1px, transparent 1px),
+                linear-gradient(90deg, #ffb3c1 1px, transparent 1px);
+            background-size: 20px 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: #d81159;
+        }
+
+        /* --- LOGIN PAGE --- */
+        #login-page {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            border: 3px dashed #ff4d6d;
+            text-align: center;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        #login-page h2 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: #c9184a;
+        }
+
+        #login-page input {
+            padding: 10px;
+            font-size: 1.2rem;
+            border: 2px solid #ffb3c1;
+            border-radius: 10px;
+            outline: none;
+            text-align: center;
+            margin-bottom: 20px;
+            width: 100%;
+        }
+
+        #login-page button {
+            background: #c9184a;
+            color: white;
+            border: none;
+            padding: 10px 30px;
+            font-size: 1.1rem;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        #login-page button:hover {
+            background: #800f2f;
+        }
+
+        /* --- MAIN PAGE --- */
+        #main-page {
+            display: none;
+            width: 90%;
+            max-width: 800px;
+            background: rgba(255, 255, 255, 0.6);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            margin: 20px;
+        }
+
+        .welcome-title {
+            font-family: 'Dancing Script', cursive;
+            font-size: 3rem;
+            text-align: center;
+            color: #c9184a;
+            margin-bottom: 20px;
+        }
+
+        /* Tabs Menu */
+        .tabs-menu {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            background: white;
+            border: 2px solid #ff4d6d;
+            color: #c9184a;
+            padding: 10px 20px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 1rem;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .tab-btn:hover, .tab-btn.active {
+            background: #ff4d6d;
+            color: white;
+        }
+
+        /* Tab Content Cards */
+        .tab-content {
+            display: none;
+            background: white;
+            border: 3px dashed #ff4d6d;
+            border-radius: 20px;
+            padding: 30px;
+            animation: fadeIn 0.5s;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .tab-content h3 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 2.2rem;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #ffb3c1;
+            padding-bottom: 10px;
+        }
+
+        /* Specific Tab Styles */
+        .letter-text {
+            line-height: 1.8;
+            font-size: 1.1rem;
+            color: #555;
+        }
+
+        .list-item {
+            background: #fff0f3;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            border-left: 5px solid #ff4d6d;
+        }
+
+        /* --- THEME STYLE PLAYER (Pink & White) --- */
+        .theme-player {
+            background-color: #fff0f3; 
+            border: 2px dashed #ff4d6d;
+            border-radius: 15px;
+            padding: 20px;
+            width: 100%;
+            max-width: 380px;
+            margin: 20px auto;
+            box-shadow: 0 5px 15px rgba(255, 77, 109, 0.15);
+        }
+
+        .sp-header {
+            display: flex;
+            justify-content: space-between;
+            color: #ff4d6d;
+            font-size: 1.2rem;
+            margin-bottom: 25px;
+        }
+
+        .sp-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .sp-text h4 {
+            font-size: 1.3rem;
+            margin: 0;
+            font-weight: 600;
+            color: #c9184a;
+        }
+
+        .sp-text p {
+            font-size: 0.9rem;
+            color: #d81159;
+            margin: 5px 0 0 0;
+        }
+
+        .fa-heart {
+            color: #ff4d6d;
+            font-size: 1.3rem;
+            cursor: pointer;
+        }
+
+        /* Progress Bar */
+        .sp-progress-container {
+            margin-bottom: 15px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            -webkit-appearance: none;
+            height: 6px;
+            background: #ffb3c1;
+            border-radius: 5px;
+            outline: none;
+            cursor: pointer;
+        }
+
+        .progress-bar::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: #c9184a;
+            cursor: pointer;
+        }
+
+        .time-labels {
+            display: flex;
+            justify-content: space-between;
+            color: #d81159;
+            font-size: 0.8rem;
+            margin-top: 8px;
+            font-weight: 500;
+        }
+
+        /* Controls */
+        .sp-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #ffb3c1;
+            font-size: 1.3rem;
+        }
+
+        .sp-controls i {
+            cursor: pointer;
+            transition: color 0.2s;
+            color: #ff4d6d;
+        }
+
+        .sp-controls i:hover {
+            color: #c9184a;
+        }
+
+        .play-btn {
+            background-color: #c9184a; 
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: transform 0.1s, background 0.2s;
+            box-shadow: 0 4px 10px rgba(201, 24, 74, 0.3);
+        }
+
+        .play-btn:hover {
+            background-color: #800f2f;
+        }
+
+        .play-btn:active {
+            transform: scale(0.95);
+        }
+
+        .play-btn i {
+            color: white !important;
+            font-size: 1.5rem;
+            margin-left: 4px;
+        }
+        
+        .play-btn i.fa-pause {
+            margin-left: 0;
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- LOGIN SCREEN -->
+    <div id="login-page">
+        <h2>Enter the secret code</h2>
+        <input type="password" id="passcode" placeholder="****">
+        <br>
+        <button onclick="checkCode()">Enter</button>
+        <p id="error-msg" style="color: red; display: none; margin-top: 10px; font-size: 0.9rem;">Wrong code, try again!</p>
+    </div>
+
+    <!-- MAIN SCREEN -->
+    <div id="main-page">
+        <h1 class="welcome-title">Welcome my love, enjoy your stay</h1>
+        
+        <!-- Navigation Tabs -->
+        <div class="tabs-menu">
+            <button class="tab-btn active" onclick="openTab('letter')"><i class="fa-solid fa-envelope"></i> Love Letter</button>
+            <button class="tab-btn" onclick="openTab('music')"><i class="fa-solid fa-music"></i> Music</button>
+            <button class="tab-btn" onclick="openTab('notes')"><i class="fa-solid fa-note-sticky"></i> Notes</button>
+        </div>
+
+        <!-- 1. Love Letter Tab -->
+        <div id="letter" class="tab-content active">
+            <h3>My Love</h3>
+            <p class="letter-text">
+                
+                Every day with you feels like a beautiful dream that I never want to wake up from. Your smile brightens my darkest days, and your laughter is my favorite melody. I cherish every moment we spend together... <br><br>
+                Forever yours,<br>
+                Mwahh!!❤️
+            </p>
+        </div>
+
+        <!-- 2. Music Tab -->
+        <div id="music" class="tab-content">
+            <h3>Our Song 🎵</h3>
+            
+            <div class="theme-player">
+                <div class="sp-header">
+                    <i class="fa-solid fa-music"></i>
+                    <i class="fa-solid fa-ellipsis"></i>
+                </div>
+
+                <div class="sp-info">
+                    <div class="sp-text">
+                        <!-- El text houni bech yetbadel wa7dou mel Javascript -->
+                        <h4>those eyes</h4>
+                    </div>
+                    <i class="fa-solid fa-heart"></i>
+                </div>
+
+                <div class="sp-progress-container">
+                    <input type="range" class="progress-bar" id="progress" value="0" step="1">
+                    <div class="time-labels">
+                        <span id="current-time">0:00</span>
+                        <span id="duration-time">0:00</span>
+                    </div>
+                </div>
+
+                <div class="sp-controls">
+                    <i class="fa-solid fa-shuffle"></i>
+                    
+                    <!-- Zedt les fonctions mta3 Next w Previous houni -->
+                    <i class="fa-solid fa-backward-step" onclick="prevSong()"></i>
+                    
+                    <div class="play-btn" onclick="togglePlay()">
+                        <i class="fa-solid fa-play" id="play-icon"></i>
+                    </div>
+                    
+                    <i class="fa-solid fa-forward-step" onclick="nextSong()"></i>
+                    
+                    <i class="fa-solid fa-repeat"></i>
+                </div>
+
+                <!-- El fichier mta3 el ghneya -->
+                <audio id="audio-file" src=""></audio>
+            </div>
+            
+        </div>
+
+        <!-- 3. Notes Tab -->
+        <div id="notes" class="tab-content">
+            <h3>Some reminders</h3>
+            <div class="list-item">Take care always</div>
+            <div class="list-item">You're mine.. always</div>
+        </div>
+
+    </div>
+
+    <!-- JAVASCRIPT -->
+    <script>
+        // Login & Tabs logic
+        function checkCode() {
+            const codeInput = document.getElementById('passcode').value;
+            if(codeInput === '2007') {
+                document.getElementById('login-page').style.display = 'none';
+                document.getElementById('main-page').style.display = 'block';
+            } else {
+                document.getElementById('error-msg').style.display = 'block';
+            }
+        }
+
+        function openTab(tabId) {
+            let contents = document.getElementsByClassName('tab-content');
+            for(let i = 0; i < contents.length; i++) {
+                contents[i].classList.remove('active');
+            }
+            let buttons = document.getElementsByClassName('tab-btn');
+            for(let i = 0; i < buttons.length; i++) {
+                buttons[i].classList.remove('active');
+            }
+            document.getElementById(tabId).classList.add('active');
+            event.currentTarget.classList.add('active');
+        }
+
+        // ==========================================
+        // MULTI-SONG PLAYER LOGIC
+        // ==========================================
+        
+        // الأغاني الثلاثة اللي في التصويرة
+        const songs = [
+            {
+                title: "those eyes",
+                source: "c:\Users\Ala Ben Brahim\Desktop\love2\those.mp3"
+            },
+            
+        ];
+
+        let songIndex = 0; // Nabdaou b awel ghneya
+
+        const audio = document.getElementById('audio-file');
+        const playIcon = document.getElementById('play-icon');
+        const progressBar = document.getElementById('progress');
+        const currentTimeEl = document.getElementById('current-time');
+        const durationTimeEl = document.getElementById('duration-time');
+        const titleElement = document.querySelector('.sp-text h4');
+        const artistElement = document.querySelector('.sp-text p');
+
+        // Fonction bech nbadlou l ghneya
+        function loadSong(song) {
+            titleElement.textContent = song.title;
+            artistElement.textContent = song.artist;
+            audio.src = song.source;
+        }
+
+        // Chargement mta3 awel ghneya
+        loadSong(songs[songIndex]);
+
+        // Play/Pause
+        function togglePlay() {
+            if (audio.paused) {
+                audio.play();
+                playIcon.classList.remove('fa-play');
+                playIcon.classList.add('fa-pause');
+            } else {
+                audio.pause();
+                playIcon.classList.remove('fa-pause');
+                playIcon.classList.add('fa-play');
+            }
+        }
+
+        // Ghneya elli ba3edha
+        function nextSong() {
+            songIndex++;
+            if (songIndex > songs.length - 1) {
+                songIndex = 0; // Ken wfaw l'aghani tarja3 l'awel wa7da
+            }
+            loadSong(songs[songIndex]);
+            audio.play();
+            playIcon.classList.remove('fa-play');
+            playIcon.classList.add('fa-pause');
+        }
+
+        // Ghneya elli 9balha
+        function prevSong() {
+            songIndex--;
+            if (songIndex < 0) {
+                songIndex = songs.length - 1; 
+            }
+            loadSong(songs[songIndex]);
+            audio.play();
+            playIcon.classList.remove('fa-play');
+            playIcon.classList.add('fa-pause');
+        }
+
+        // Format mta3 wa9t
+        function formatTime(seconds) {
+            if (isNaN(seconds)) return "0:00";
+            let min = Math.floor(seconds / 60);
+            let sec = Math.floor(seconds % 60);
+            if (sec < 10) sec = '0' + sec;
+            return `${min}:${sec}`;
+        }
+
+        audio.addEventListener('loadedmetadata', () => {
+            progressBar.max = audio.duration;
+            durationTimeEl.textContent = formatTime(audio.duration);
+        });
+
+        audio.addEventListener('timeupdate', () => {
+            progressBar.value = audio.currentTime;
+            currentTimeEl.textContent = formatTime(audio.currentTime);
+        });
+
+        progressBar.addEventListener('input', () => {
+            audio.currentTime = progressBar.value;
+        });
+
+        // Ki toufa el ghneya, tet3ada elli ba3edha wa7ad'ha
+        audio.addEventListener('ended', () => {
+            nextSong();
+        });
+    </script>
+</body>
+</html>
