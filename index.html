@@ -18,7 +18,6 @@
         }
 
         body {
-            /* Pink background */
             background-color: #ffccd5;
             background-image: 
                 linear-gradient(#ffb3c1 1px, transparent 1px),
@@ -150,7 +149,6 @@
             padding-bottom: 10px;
         }
 
-        /* Specific Tab Styles */
         .letter-text {
             line-height: 1.8;
             font-size: 1.1rem;
@@ -162,13 +160,10 @@
             padding: 15px;
             border-radius: 10px;
             margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-            gap: 15px;
             border-left: 5px solid #ff4d6d;
         }
 
-        /* --- THEME STYLE PLAYER (Pink & White) --- */
+        /* --- JS MUSIC PLAYER STYLE --- */
         .theme-player {
             background-color: #fff0f3; 
             border: 2px dashed #ff4d6d;
@@ -214,7 +209,6 @@
             cursor: pointer;
         }
 
-        /* Progress Bar */
         .sp-progress-container {
             margin-bottom: 15px;
         }
@@ -248,7 +242,6 @@
             font-weight: 500;
         }
 
-        /* Controls */
         .sp-controls {
             display: flex;
             justify-content: space-between;
@@ -297,7 +290,6 @@
         .play-btn i.fa-pause {
             margin-left: 0;
         }
-
     </style>
 </head>
 <body>
@@ -315,25 +307,23 @@
     <div id="main-page">
         <h1 class="welcome-title">Welcome my love, enjoy your stay</h1>
         
-        <!-- Navigation Tabs -->
         <div class="tabs-menu">
             <button class="tab-btn active" onclick="openTab('letter')"><i class="fa-solid fa-envelope"></i> Love Letter</button>
             <button class="tab-btn" onclick="openTab('music')"><i class="fa-solid fa-music"></i> Music</button>
             <button class="tab-btn" onclick="openTab('notes')"><i class="fa-solid fa-note-sticky"></i> Notes</button>
         </div>
 
-        <!-- 1. Love Letter Tab -->
         <div id="letter" class="tab-content active">
-            <h3>My Love</h3>
+            <h3>My Dearest</h3>
             <p class="letter-text">
-                
+                My love, <br><br>
                 Every day with you feels like a beautiful dream that I never want to wake up from. Your smile brightens my darkest days, and your laughter is my favorite melody. I cherish every moment we spend together... <br><br>
                 Forever yours,<br>
-                Mwahh!!❤️
+                Me ❤️
             </p>
         </div>
 
-        <!-- 2. Music Tab -->
+        <!-- MUSIC TAB -->
         <div id="music" class="tab-content">
             <h3>Our Song 🎵</h3>
             
@@ -345,8 +335,8 @@
 
                 <div class="sp-info">
                     <div class="sp-text">
-                        <!-- El text houni bech yetbadel wa7dou mel Javascript -->
-                        <h4>those eyes</h4>
+                        <h4 id="song-title">Those Eyes</h4>
+                        <p id="song-artist">New West</p>
                     </div>
                     <i class="fa-solid fa-heart"></i>
                 </div>
@@ -361,8 +351,6 @@
 
                 <div class="sp-controls">
                     <i class="fa-solid fa-shuffle"></i>
-                    
-                    <!-- Zedt les fonctions mta3 Next w Previous houni -->
                     <i class="fa-solid fa-backward-step" onclick="prevSong()"></i>
                     
                     <div class="play-btn" onclick="togglePlay()">
@@ -370,31 +358,27 @@
                     </div>
                     
                     <i class="fa-solid fa-forward-step" onclick="nextSong()"></i>
-                    
                     <i class="fa-solid fa-repeat"></i>
                 </div>
 
-                <!-- El fichier mta3 el ghneya -->
-                <audio id="audio-file" src=""></audio>
+                <!-- HTML5 Audio Element (Controlled by JavaScript) -->
+                <audio id="audio-file"></audio>
             </div>
-            
         </div>
 
-        <!-- 3. Notes Tab -->
         <div id="notes" class="tab-content">
             <h3>Some reminders</h3>
             <div class="list-item">Take care always</div>
+            <div class="list-item">Eat on time</div>
             <div class="list-item">You're mine.. always</div>
         </div>
-
     </div>
 
     <!-- JAVASCRIPT -->
     <script>
-        // Login & Tabs logic
         function checkCode() {
             const codeInput = document.getElementById('passcode').value;
-            if(codeInput === '2007') {
+            if(codeInput === '0000') {
                 document.getElementById('login-page').style.display = 'none';
                 document.getElementById('main-page').style.display = 'block';
             } else {
@@ -416,44 +400,48 @@
         }
 
         // ==========================================
-        // MULTI-SONG PLAYER LOGIC
+        // JAVASCRIPT AUDIO PLAYER ARRAY & LOGIC
         // ==========================================
-        
-        // الأغاني الثلاثة اللي في التصويرة
         const songs = [
             {
-                title: "those eyes",
-                source: "c:\Users\Ala Ben Brahim\Desktop\love2\those.mp3"
+                title: "Those Eyes",
+                
+                source: "those.mp3",
             },
-            
+            {
+                title: "Song Two",
+                artist: "Artist Two",
+                source: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
+            }
         ];
 
-        let songIndex = 0; // Nabdaou b awel ghneya
+        let songIndex = 0;
 
         const audio = document.getElementById('audio-file');
         const playIcon = document.getElementById('play-icon');
         const progressBar = document.getElementById('progress');
         const currentTimeEl = document.getElementById('current-time');
         const durationTimeEl = document.getElementById('duration-time');
-        const titleElement = document.querySelector('.sp-text h4');
-        const artistElement = document.querySelector('.sp-text p');
+        const titleElement = document.getElementById('song-title');
+        const artistElement = document.getElementById('song-artist');
 
-        // Fonction bech nbadlou l ghneya
         function loadSong(song) {
             titleElement.textContent = song.title;
             artistElement.textContent = song.artist;
             audio.src = song.source;
+            audio.load();
         }
 
-        // Chargement mta3 awel ghneya
         loadSong(songs[songIndex]);
 
-        // Play/Pause
         function togglePlay() {
             if (audio.paused) {
-                audio.play();
-                playIcon.classList.remove('fa-play');
-                playIcon.classList.add('fa-pause');
+                audio.play().then(() => {
+                    playIcon.classList.remove('fa-play');
+                    playIcon.classList.add('fa-pause');
+                }).catch(error => {
+                    console.log("Play error:", error);
+                });
             } else {
                 audio.pause();
                 playIcon.classList.remove('fa-pause');
@@ -461,11 +449,10 @@
             }
         }
 
-        // Ghneya elli ba3edha
         function nextSong() {
             songIndex++;
             if (songIndex > songs.length - 1) {
-                songIndex = 0; // Ken wfaw l'aghani tarja3 l'awel wa7da
+                songIndex = 0;
             }
             loadSong(songs[songIndex]);
             audio.play();
@@ -473,11 +460,10 @@
             playIcon.classList.add('fa-pause');
         }
 
-        // Ghneya elli 9balha
         function prevSong() {
             songIndex--;
             if (songIndex < 0) {
-                songIndex = songs.length - 1; 
+                songIndex = songs.length - 1;
             }
             loadSong(songs[songIndex]);
             audio.play();
@@ -485,7 +471,6 @@
             playIcon.classList.add('fa-pause');
         }
 
-        // Format mta3 wa9t
         function formatTime(seconds) {
             if (isNaN(seconds)) return "0:00";
             let min = Math.floor(seconds / 60);
@@ -508,7 +493,6 @@
             audio.currentTime = progressBar.value;
         });
 
-        // Ki toufa el ghneya, tet3ada elli ba3edha wa7ad'ha
         audio.addEventListener('ended', () => {
             nextSong();
         });
